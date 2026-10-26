@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketing Specialty Class | Interactive Edition</title>
+<style>
+:root{--ink:#191919;--paper:#f7f4ee;--peach:#ffd8c8;--orange:#ff704f;--blue:#2346d8;--lav:#dcd9ff;--lime:#d9f27b;--muted:#676767;--line:rgba(25,25,25,.15);--white:#fff}
+*{box-sizing:border-box}html,body{margin:0;background:#151515;color:var(--ink);font-family:Inter,Arial,sans-serif}body{overflow:hidden}
+button{font:inherit;cursor:pointer}
+.deck{height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px}
+.slide{display:none;position:relative;width:min(100%,1440px);height:min(100%,810px);aspect-ratio:16/9;background:var(--paper);overflow:auto;padding:clamp(28px,4.5vw,72px);border-radius:4px}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+.slide.dark{background:var(--ink);color:var(--paper)}.slide.blue{background:var(--blue);color:white}.slide.peach{background:var(--peach)}.slide.lime{background:var(--lime)}
+.kicker{font-size:clamp(10px,.9vw,13px);font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.75;margin-bottom:18px}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(42px,7.5vw,100px);line-height:.94;letter-spacing:-.065em;max-width:1000px;margin-bottom:24px}h2{font-size:clamp(30px,4.2vw,58px);line-height:1;letter-spacing:-.05em;margin-bottom:22px}h3{font-size:clamp(18px,2vw,27px);line-height:1.08;letter-spacing:-.025em;margin-bottom:10px}
+.lede{font-size:clamp(16px,1.8vw,24px);line-height:1.45;max-width:850px;color:inherit;opacity:.88}
+.offer-badge{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:#191919;border:2px solid #191919;border-radius:999px;padding:11px 16px;font-weight:900;font-size:clamp(13px,1.2vw,17px);margin-top:20px;box-shadow:5px 5px 0 #ff704f}.offer-badge span{font-weight:650;font-size:.88em}.accent{color:var(--orange)}.dark .accent{color:var(--lime)}.blue .accent{color:var(--lime)}
+.small{font-size:clamp(12px,1.15vw,16px);line-height:1.5}.muted{color:var(--muted)}.dark .muted{color:#c9c9c9}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.card{border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:18px;padding:clamp(14px,1.7vw,24px);min-width:0}
+.dark .card,.blue .card{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22)}
+.card p:last-child{margin-bottom:0}.card strong{display:block;font-size:clamp(15px,1.35vw,19px);margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:9px;max-width:1120px;margin-top:20px}
+.pill{display:inline-flex;align-items:center;border:1px solid rgba(25,25,25,.18);background:#fff;border-radius:999px;padding:9px 14px;font-size:clamp(12px,1.05vw,15px);font-weight:650;color:#202020}
+.pill:nth-child(4n+1){background:#ffd8c8}.pill:nth-child(4n+2){background:#dcd9ff}.pill:nth-child(4n+3){background:#d9f27b}.pill:nth-child(4n){background:#dbe6ff}
+.question-pills .pill{padding:11px 15px;font-weight:600;line-height:1.25}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+.panel{border-radius:20px;padding:clamp(18px,2.3vw,32px);background:#fff;border:1px solid var(--line)}
+.panel.darkpanel{background:#222;color:#fff;border-color:#333}.panel.orange{background:var(--orange)}.panel.lav{background:var(--lav)}
+ul.clean{padding-left:18px;margin:10px 0 0;line-height:1.55;font-size:clamp(12px,1.15vw,16px)}ul.clean li{margin:4px 0}
+.note{font-size:clamp(11px,1vw,14px);line-height:1.45;opacity:.8;margin-top:16px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}.step{padding:18px;border-top:4px solid var(--orange);background:#fff;border-radius:12px}.step b{font-size:clamp(22px,2.5vw,34px);display:block;margin-bottom:10px}
+.venn{position:relative;height:440px;max-width:850px;margin:0 auto;width:100%}
+.circle{position:absolute;width:48%;height:54%;border:2px solid rgba(25,25,25,.7);border-radius:50%;display:flex;align-items:flex-start;justify-content:center;padding:28px 18px;text-align:center;font-weight:800;font-size:clamp(13px,1.4vw,19px);line-height:1.2}
+.circle.c1{top:1%;left:8%;background:rgba(255,112,79,.7)}.circle.c2{top:1%;right:8%;background:rgba(217,242,123,.76)}.circle.c3{bottom:1%;left:8%;background:rgba(220,217,255,.8)}.circle.c4{bottom:1%;right:8%;background:rgba(189,218,255,.8)}
+.circle{cursor:pointer;z-index:1;transition:transform .18s,box-shadow .18s}.circle:hover,.circle:focus{transform:scale(1.025);box-shadow:0 8px 22px rgba(0,0,0,.15);outline:3px solid var(--ink);outline-offset:2px}.centerLabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);color:white;border-radius:50%;width:155px;height:155px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:18px;line-height:1.1;border:5px solid white;box-shadow:0 0 0 2px var(--ink);z-index:5}
+.pillar-detail{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:10px}.pillar-detail h3{grid-column:1/-1;margin-bottom:0}.pillar-detail p{font-size:clamp(12px,1vw,15px);line-height:1.45;margin:0}.pillar-detail b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}.overlap-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}.overlap{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.78);font-size:clamp(11px,1vw,14px);line-height:1.35}.overlap b{display:block;margin-bottom:4px}
+.specialty-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start;margin-top:8px}
+.specialty-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-height:480px;overflow:auto;padding:2px}
+.specialty-btn{background:#fff;color:#202020;border:1px solid var(--line);border-radius:12px;text-align:left;padding:12px 13px;font-weight:750;font-size:clamp(11px,1vw,14px);line-height:1.25}
+.specialty-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.specialty-detail{background:#fff;color:#202020;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,2vw,28px);min-height:280px}
+.detail-tag{display:inline-block;background:var(--peach);border-radius:999px;padding:6px 10px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.detail-row{margin:14px 0}.detail-row b{font-size:12px;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:5px}.detail-row p{font-size:clamp(12px,1.05vw,15px);line-height:1.45;margin:0}
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.tool{background:#fff;color:#191919;border:1px solid rgba(25,25,25,.28);border-radius:14px;padding:15px;box-shadow:0 3px 0 rgba(25,25,25,.08);min-height:112px}.tool b{display:block;color:#191919;font-size:clamp(13px,1.2vw,17px);font-weight:850;margin-bottom:7px;line-height:1.25}.tool p{font-size:clamp(11px,1vw,14px);line-height:1.45;margin:0;color:#333}.blue .tools-grid .tool,.blue .tools-grid .tool b,.blue .tools-grid .tool p{color:#191919!important;-webkit-text-fill-color:#191919!important}.blue .tools-grid .tool{background:#fff!important}
+.footer{position:absolute;bottom:15px;left:clamp(28px,4.5vw,72px);right:clamp(28px,4.5vw,72px);display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.55;pointer-events:none}
+.controls{position:fixed;z-index:100;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(20,20,20,.9);border:1px solid #444;border-radius:999px;padding:7px 10px;color:white}
+.controls button{border:0;background:#303030;color:#fff;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:700}.controls button:disabled{opacity:.35;cursor:default}.counter{font-size:11px;min-width:48px;text-align:center;color:#ddd}.progress{position:fixed;top:0;left:0;height:4px;background:var(--orange);z-index:101;width:0;transition:width .2s}
+@media(max-width:760px){body{overflow:auto}.deck{height:auto;min-height:100dvh;padding:0;display:block}.slide{width:100%;height:100dvh;min-height:620px;aspect-ratio:auto;border-radius:0;padding:28px 22px 60px}.slide.active{display:flex}.grid{grid-template-columns:1fr 1fr}.two,.specialty-layout{grid-template-columns:1fr}.specialty-buttons{grid-template-columns:repeat(2,1fr);max-height:220px}.tools-grid{grid-template-columns:1fr 1fr}.pillar-detail{grid-template-columns:1fr}.venn{height:340px}.circle{width:55%;height:52%;padding:22px 10px;font-size:12px;line-height:1.15}.circle.c1,.circle.c3{left:0}.circle.c2,.circle.c4{right:0}.centerLabel{width:112px;height:112px;font-size:14px}.overlap-list{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.footer{bottom:58px;left:22px;right:22px}.controls{bottom:8px}.question-pills{gap:7px}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.overlap-list{grid-template-columns:1fr 1fr}.pill{padding:8px 10px}.tools-grid{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+.quality-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:22px;margin-top:28px;align-items:stretch}.quality-buttons{display:flex;flex-direction:column;gap:10px}.quality-btn{display:flex;align-items:center;gap:14px;text-align:left;padding:17px 18px;background:#fff;color:#191919;border:2px solid #191919;box-shadow:5px 5px 0 #191919;font-weight:900}.quality-btn b{font-family:Oswald,Arial,sans-serif;font-size:23px;color:var(--orange)}.quality-btn span{font-family:Oswald,Arial,sans-serif;font-size:18px}.quality-btn.active,.quality-btn:hover{background:var(--lime);transform:translate(-1px,-1px)}.quality-detail{min-height:350px;padding:26px}.quality-detail h3{font-size:clamp(28px,3vw,42px);margin:12px 0}.quality-detail p{line-height:1.5}.quality-detail .detail-row{border-top:1px solid #aaa;padding-top:12px;margin-top:14px}.quality-detail .detail-row b{display:block;margin-bottom:5px}.quality-detail .detail-tag{font-family:Oswald,Arial,sans-serif;font-size:13px;letter-spacing:.1em;color:#d94a24;font-weight:700}.quality-detail .detail-row p{margin:0}.quality-detail .detail-row p b{display:inline}
+@media(max-width:800px){.quality-layout{grid-template-columns:1fr}.quality-buttons{display:grid;grid-template-columns:1fr 1fr}.quality-btn{padding:12px}.quality-btn span{font-size:15px}.quality-detail{min-height:0}}
+
+
+.apprenticeship-preview{display:block;text-decoration:none;color:#191919;background:#f7f4ee;border:2px solid var(--lime);border-radius:18px;padding:clamp(16px,2vw,28px);margin-top:8px;max-width:1000px;box-shadow:7px 7px 0 var(--lime);transition:transform .18s,box-shadow .18s}
+.apprenticeship-preview:hover,.apprenticeship-preview:focus-visible{transform:translate(-2px,-2px);box-shadow:10px 10px 0 var(--orange);outline:2px solid white;outline-offset:4px}
+.preview-top,.preview-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:clamp(10px,.9vw,13px);font-weight:900;letter-spacing:.1em}
+.preview-label{background:var(--peach);padding:8px 11px;border-radius:999px}.preview-arrow{font-size:24px}
+.preview-main{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;padding:clamp(18px,2.4vw,32px) 0}
+.preview-eyebrow{font-size:clamp(10px,.9vw,12px);font-weight:850;letter-spacing:.13em;opacity:.7;margin-bottom:10px}
+.preview-main h2{font-size:clamp(27px,4vw,52px);line-height:.98;margin:0;letter-spacing:-.055em}.preview-main h2 span{color:var(--orange)}
+.preview-price{min-width:180px;background:var(--lime);padding:15px 18px;border:1.5px solid #191919;border-radius:12px;display:flex;flex-direction:column;gap:6px}
+.preview-price span,.preview-price small{font-size:10px;font-weight:850;letter-spacing:.08em}.preview-price strong{font-size:clamp(25px,3vw,40px);letter-spacing:-.05em}.preview-price small{letter-spacing:0;font-weight:650}
+.preview-bottom{border-top:1px solid rgba(25,25,25,.2);padding-top:14px;letter-spacing:.04em}.preview-bottom strong{color:#d94a24}
+@media(max-width:600px){.preview-main{align-items:stretch;flex-direction:column}.preview-price{min-width:0}.preview-bottom{align-items:flex-start;flex-direction:column;gap:8px}}
+
+
+.final-offer{display:grid;grid-template-columns:.78fr 1.22fr;gap:clamp(18px,2.4vw,34px);align-items:center;margin-top:8px;min-height:0}
+.final-copy{min-width:0}.final-copy h1{font-size:clamp(36px,5vw,68px);line-height:.93;margin-bottom:18px}.final-copy .lede{font-size:clamp(14px,1.35vw,19px);line-height:1.4}.final-benefits{display:grid;gap:12px;margin:18px 0 20px}.final-benefit{display:flex;gap:12px;align-items:flex-start;font-size:clamp(12px,1vw,15px);line-height:1.35}.final-benefit b{display:block;color:var(--paper);margin-bottom:3px}.benefit-icon{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;background:#303030;color:var(--lime);font-size:17px}
+.final-cta{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--lime);color:#191919;text-decoration:none;font-weight:950;letter-spacing:.04em;padding:15px 18px;border-radius:999px;font-size:clamp(12px,1.05vw,15px);box-shadow:4px 4px 0 var(--orange)}.final-cta:hover,.final-cta:focus-visible{transform:translateY(-2px);outline:2px solid white;outline-offset:3px}.final-caption{font-size:11px;color:#c9c9c9;margin:12px 0 0}
+.live-preview{display:block;position:relative;padding:0;overflow:hidden;background:#f7f4ee;border:2px solid #d9f27b;border-radius:20px;box-shadow:6px 6px 0 #d9f27b;min-width:0;text-decoration:none;color:#191919;transition:transform .18s,box-shadow .18s}.live-preview:hover,.live-preview:focus-visible{transform:translate(-2px,-2px);box-shadow:9px 9px 0 #ff704f;outline:2px solid white;outline-offset:4px}
+.live-preview-frame{position:relative;height:clamp(370px,61vh,570px);overflow:hidden;background:#f7f4ee}.live-preview-frame iframe{width:100%;height:100%;border:0;pointer-events:none;background:#f7f4ee}.preview-overlay{position:absolute;inset:auto 0 0;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:35px 14px 13px;background:linear-gradient(transparent,rgba(20,20,20,.92));color:#fff;font-size:clamp(9px,.8vw,12px);font-weight:850;letter-spacing:.07em}.preview-overlay strong{background:var(--lime);color:#191919;padding:9px 11px;border-radius:999px;white-space:nowrap}.live-preview .preview-bottom{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f7f4ee;font-size:clamp(10px,.9vw,13px);font-weight:850}.live-preview .preview-bottom strong{font-size:clamp(17px,2vw,26px);letter-spacing:-.04em;white-space:nowrap}
+@media(max-width:800px){.final-offer{grid-template-columns:1fr;gap:16px}.final-copy h1{font-size:clamp(38px,8vw,56px)}.live-preview-frame{height:350px}.final-benefits{grid-template-columns:1fr 1fr;gap:9px}.final-cta{max-width:400px}}
+@media(max-width:600px){.live-preview-frame{height:300px}.preview-overlay{align-items:flex-start;flex-direction:column}.live-preview .preview-bottom{align-items:flex-start;flex-direction:column}.final-benefits{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+<section class="slide dark active">
+<div class="kicker">A practical introduction · Live class</div>
+<h1>LET'S TALK<br><span class="accent">MARKETING.</span></h1>
+<p class="lede">Understand the work. Find your strengths. Choose a useful place to start.</p>
+
+<div class="pills"><span class="pill">For beginners</span><span class="pill">For business owners</span><span class="pill">For students building side income</span></div>
+<div class="footer"><span>Marketing Specialty Class</span><span>01 / START HERE</span></div>
+</section>
+<section class="slide peach">
+<div class="kicker">Before we get into it</div><h2>WHO IS THIS<br>CLASS FOR?</h2>
+<div class="grid">
+<div class="card"><strong>01 · Marketing beginners</strong><p class="small">You want to enter marketing, but you don't know what the work involves or where to begin.</p></div>
+<div class="card"><strong>02 · Business owners</strong><p class="small">You want to understand how marketing helps you reach customers, make sales and earn repeat business.</p></div>
+<div class="card"><strong>03 · Students seeking side income</strong><p class="small">You want to build a practical skill that can help you work with businesses and earn.</p></div>
+</div><p class="note">One class, three goals. We'll connect the same marketing skills to each path.</p><div class="footer"><span>Different goals, shared foundations</span><span>02</span></div>
+</section>
+<section class="slide">
+<div class="kicker">First, the definition</div><h2>SO, WHAT IS<br><span class="accent">MARKETING?</span></h2>
+<p class="lede">Marketing is the work of understanding people, creating value, communicating why that value matters, and helping a business attract and keep customers.</p>
+<div class="steps"><div class="step"><b>01</b><strong>Understand</strong><p class="small">Who needs this? What matters to them?</p></div><div class="step"><b>02</b><strong>Position</strong><p class="small">Why should they choose this offer?</p></div><div class="step"><b>03</b><strong>Reach</strong><p class="small">How will the right people find it?</p></div><div class="step"><b>04</b><strong>Keep</strong><p class="small">How do we earn trust and repeat business?</p></div></div><div class="footer"><span>Marketing is bigger than posting</span><span>03</span></div>
+</section>
+<section class="slide dark">
+<div class="kicker">Let's surface the questions</div><h2>WHAT HAVE YOU<br><span class="accent">WONDERED?</span></h2>
+<p class="lede">Pick the questions you've asked yourself. We don't have to answer every one right now.</p>
+<div class="pills question-pills">
+<span class="pill">Is marketing just social media?</span><span class="pill">Is marketing the same as sales?</span><span class="pill">Can I start with no experience?</span><span class="pill">Do I need a marketing degree?</span><span class="pill">Do I need followers to make money?</span><span class="pill">Do I have to be creative?</span><span class="pill">Do I need to be good at maths?</span><span class="pill">Can I learn while in school?</span><span class="pill">Can marketing grow my business?</span><span class="pill">What can I actually get paid to do?</span><span class="pill">Will AI replace marketers?</span><span class="pill">How do I choose a specialty?</span>
+</div><p class="note">Facilitator prompt: “Which question feels most familiar to you?” Give people a moment to respond.</p><div class="footer"><span>Questions welcome</span><span>04</span></div>
+</section>
+<section class="slide">
+<div class="kicker">The business view</div><h2>MARKETING HAS<br><span class="accent">TWO BIG JOBS.</span></h2>
+<div class="two">
+<div class="panel orange"><h3>01 · Customer acquisition</h3><p class="small">Help the right people discover the business, understand the offer and become customers.</p><ul class="clean"><li>Content marketing and social media</li><li>Paid advertising and SEO</li><li>Influencer marketing, PR and partnerships</li><li>Sales outreach and referrals</li></ul></div>
+<div class="panel lav"><h3>02 · Customer retention</h3><p class="small">Give customers good reasons to stay, return, recommend and buy again.</p><ul class="clean"><li>Customer experience and support</li><li>Email, SMS and WhatsApp follow-up</li><li>Loyalty, personalisation and CRM</li><li>Community and re-engagement</li></ul></div>
+</div><p class="note">A business needs both. The right balance depends on its stage, offer, customers and goals.</p><div class="footer"><span>Acquire customers. Keep their trust.</span><span>05</span></div>
+</section>
+<section class="slide blue">
+<div class="kicker">A bigger picture</div><h2>MARKETING IS WHERE<br>PEOPLE MEET <span class="accent">BUSINESS.</span></h2>
+<div class="grid">
+<div class="card"><strong>People</strong><p class="small">Needs, behaviour, culture, habits, objections and decisions.</p></div>
+<div class="card"><strong>Value</strong><p class="small">The product, service or experience that solves a real problem.</p></div>
+<div class="card"><strong>Business</strong><p class="small">Revenue, costs, growth, customer relationships and long-term value.</p></div>
+</div><p class="lede" style="margin-top:24px">Good marketing connects what people need with what a business can meaningfully offer.</p><div class="footer"><span>Think beyond the platform</span><span>06</span></div>
+</section>
+<section class="slide">
+<div class="kicker">A useful starting point</div><h2>FOUR PILLARS OF<br><span class="accent">A MODERN MARKETER.</span></h2>
+<div class="venn" aria-label="Select a pillar to explore what it means">
+<button class="circle c1" data-pillar="creative" aria-label="Explore Creative Thinking">CREATIVE<br>THINKING</button><button class="circle c2" data-pillar="tech" aria-label="Explore Technology and Automation">TECHNOLOGY<br>& AUTOMATION</button><button class="circle c3" data-pillar="business" aria-label="Explore Business and Commercial Thinking">BUSINESS &<br>COMMERCIAL THINKING</button><button class="circle c4" data-pillar="strategy" aria-label="Explore Strategy and Leadership">STRATEGY &<br>LEADERSHIP</button><div class="centerLabel">THE<br>MODERN<br>MARKETER</div>
+</div><div class="pillar-detail" id="pillarDetail" aria-live="polite"><h3>Choose a pillar above</h3><p>Each one describes a different kind of work marketers do.</p><p>Tap a circle to see the everyday meaning, example work and strengths you can build on.</p></div><p class="note">You do not need to master all four to begin. Start with a strength, learn the work, then build range.</p><div class="footer"><span>Strengths can overlap</span><span>07</span></div>
+</section>
+<section class="slide peach">
+<div class="kicker">Explore the overlaps</div><h2>YOUR MIX OF STRENGTHS<br>CAN SUGGEST A <span class="accent">DIRECTION.</span></h2>
+<div class="overlap-list">
+<div class="overlap"><b>Creative + Analytical</b>Creative strategy, content strategy</div><div class="overlap"><b>Creative + Business-minded</b>Brand strategy, campaign strategy</div><div class="overlap"><b>Creative + Tech-oriented</b>Creative automation, digital content production</div><div class="overlap"><b>Analytical + Business-minded</b>Growth strategy, marketing analytics</div><div class="overlap"><b>Analytical + Tech-oriented</b>Marketing analytics, marketing operations</div><div class="overlap"><b>Business + Tech-oriented</b>Marketing operations, marketing automation</div><div class="overlap"><b>Creative + Analytical + Business</b>Strategic marketing, growth planning</div><div class="overlap"><b>All four</b>Broad marketing leadership over time</div><div class="overlap"><b>Remember</b>These are starting clues, not fixed rules.</div>
+</div><div class="footer"><span>Explore, don't label yourself forever</span><span>08</span></div>
+</section>
+<section class="slide">
+<div class="kicker">Your starting point</div><h2>YOU ALREADY HAVE<br><span class="accent">SOMETHING TO BUILD ON.</span></h2>
+<p class="lede">Marketing-specific skills can be learned. Start by noticing what you already do in everyday life.</p>
+<div class="pills">
+<span class="pill">Solving problems</span><span class="pill">Asking questions</span><span class="pill">Thinking creatively</span><span class="pill">Noticing patterns</span><span class="pill">Making decisions</span><span class="pill">Figuring things out</span><span class="pill">Writing</span><span class="pill">Explaining ideas</span><span class="pill">Storytelling</span><span class="pill">Listening</span><span class="pill">Speaking</span><span class="pill">Persuading</span><span class="pill">Planning</span><span class="pill">Organisation</span><span class="pill">Time management</span><span class="pill">Attention to detail</span><span class="pill">Following through</span><span class="pill">Learning quickly</span><span class="pill">Understanding people</span><span class="pill">Building relationships</span><span class="pill">Handling disagreements</span><span class="pill">Bringing people together</span><span class="pill">Researching</span><span class="pill">Comparing options</span><span class="pill">Working with numbers</span><span class="pill">Spotting mistakes</span><span class="pill">Finding information</span><span class="pill">Drawing conclusions</span><span class="pill">Selling</span><span class="pill">Negotiating</span><span class="pill">Teaching others</span><span class="pill">Managing money</span><span class="pill">Taking initiative</span>
+</div><p class="note">These skills can come from school, hobbies, volunteering, family responsibilities or previous jobs.</p><div class="footer"><span>Your experience counts</span><span>09</span></div>
+</section>
+<section class="slide peach">
+<div class="kicker">New-age skill stacking</div><h2>ONE SKILL IS A START.<br><span class="accent">A STACK GIVES YOU RANGE.</span></h2>
+<p class="lede">Modern marketing work often combines several abilities. You can start with one strength and add complementary skills as you practise.</p>
+<div class="grid">
+<div class="card"><strong>Writing + understanding people + AI tools</strong><p class="small">A useful stack for content marketing and copywriting.</p></div>
+<div class="card"><strong>Creative thinking + research + business sense</strong><p class="small">A useful stack for brand strategy and creative strategy.</p></div>
+<div class="card"><strong>Numbers + testing + customer understanding</strong><p class="small">A useful stack for growth marketing and marketing analytics.</p></div>
+<div class="card"><strong>Organisation + tech curiosity + follow-through</strong><p class="small">A useful stack for marketing operations and automation.</p></div>
+<div class="card"><strong>Listening + communication + coordination</strong><p class="small">A useful stack for account management and community marketing.</p></div>
+<div class="card"><strong>Planning + leadership + commercial thinking</strong><p class="small">A useful stack as you grow toward campaign leadership or marketing management.</p></div>
+</div><p class="note">A skill stack is not a checklist you must finish before starting. Build it through projects, feedback and repeated practice.</p><div class="footer"><span>Combine skills with intention</span><span>10</span></div>
+</section>
+<section class="slide dark">
+<div class="kicker">The specialty directory</div><h2>EXPLORE THE WORK.<br><span class="accent">FIND YOUR LANE.</span></h2>
+<p class="lede">Select a specialty to see what the work involves, the skills it uses and a practical example. Job titles and responsibilities vary by business.</p>
+<div class="specialty-layout">
+<div class="specialty-buttons" id="specialtyButtons"></div>
+<div class="specialty-detail" id="specialtyDetail" aria-live="polite"></div>
+</div><div class="footer"><span>Tap a specialty</span><span>11</span></div>
+</section>
+<section class="slide peach">
+<div class="kicker">Two ways to build experience</div><h2>WORK WITH A BUSINESS.<br>OR BUILD <span class="accent">YOUR OWN.</span></h2>
+<div class="two">
+<div class="panel"><h3>Working with an existing business</h3><ul class="clean"><li>Learn one function deeply inside a bigger operation.</li><li>See how teams, budgets, customers and goals connect.</li><li>Get feedback, collaboration and experience with real constraints.</li><li>Build evidence you can use for jobs or client work.</li></ul></div>
+<div class="panel orange"><h3>Marketing your own business</h3><ul class="clean"><li>Apply several marketing functions at once.</li><li>Learn directly from your own customers and sales.</li><li>Make decisions quickly, often with limited resources.</li><li>Accept that you may be doing strategy, content, sales and support together.</li></ul></div>
+</div><p class="note">Neither path is automatically better. Choose based on your goal, resources and the kind of experience you need.</p><div class="footer"><span>Specialise, generalise, or combine</span><span>11</span></div>
+</section>
+<section class="slide">
+<div class="kicker">Generalist or specialist?</div><h2>YOU CAN START SMALL<br>AND <span class="accent">EXPAND OVER TIME.</span></h2>
+<div class="two">
+<div class="panel lav"><h3>Specialist</h3><p class="small">Build depth in a particular problem or function.</p><p class="small"><b>Examples:</b> SEO specialist, paid media buyer, email marketing specialist, brand strategist, account manager.</p></div>
+<div class="panel orange"><h3>Generalist</h3><p class="small">Coordinate multiple marketing functions and understand how they work together.</p><p class="small"><b>Examples:</b> Marketing executive, marketing manager, growth marketer at a small business.</p></div>
+</div><p class="lede" style="margin-top:22px">You do not need to choose your forever role today. Choose the next skill or project that will teach you something useful.</p><div class="footer"><span>Build depth, then build range</span><span>12</span></div>
+</section>
+<section class="slide blue">
+<div class="kicker">The marketer's toolkit</div><h2>TOOLS HELP YOU DO<br>THE <span class="accent">WORK.</span></h2>
+<p class="lede">You do not need every tool. Learn the ones that match the problem you are trying to solve.</p>
+<div class="tools-grid">
+<div class="tool"><b>Research</b><p>Google Search, Google Trends, Google Forms, Meta Ad Library</p></div>
+<div class="tool"><b>Content & design</b><p>Canva, CapCut, Adobe Photoshop, ChatGPT</p></div>
+<div class="tool"><b>Social publishing</b><p>Meta Business Suite, Buffer, Metricool, TikTok Studio</p></div>
+<div class="tool"><b>Analytics</b><p>Google Analytics 4, Search Console, Google Sheets, Looker Studio</p></div>
+<div class="tool"><b>Paid acquisition</b><p>Meta Ads Manager, Google Ads, TikTok Ads Manager</p></div>
+<div class="tool"><b>SEO & websites</b><p>WordPress, Semrush, Screaming Frog, Framer</p></div>
+<div class="tool"><b>Email & CRM</b><p>Mailchimp, Brevo, HubSpot, WhatsApp Business</p></div>
+<div class="tool"><b>Automation & teamwork</b><p>Zapier, Make, Trello, Asana, Google Drive, Slack</p></div>
+</div><p class="note">Some tools have paid plans or features. Start with free access where possible.</p><div class="footer"><span>Tools support judgement</span><span>13</span></div>
+</section>
+<section class="slide">
+<div class="kicker">Put the tool in context</div><h2>MATCH THE TOOL<br>TO THE <span class="accent">JOB.</span></h2>
+<div class="grid">
+<div class="card"><strong>Understand customers</strong><p class="small">Use Google Search, Google Trends and Google Forms to investigate questions, demand and customer needs.</p></div>
+<div class="card"><strong>Create content</strong><p class="small">Use Canva or CapCut to produce a useful asset for a defined audience and goal.</p></div>
+<div class="card"><strong>Measure results</strong><p class="small">Use Google Analytics 4 and Sheets to understand traffic, actions and patterns.</p></div>
+<div class="card"><strong>Find new customers</strong><p class="small">Use SEO, paid ads, partnerships or outreach depending on the audience and offer.</p></div>
+<div class="card"><strong>Bring customers back</strong><p class="small">Use email, CRM and WhatsApp Business to follow up appropriately and improve the experience.</p></div>
+<div class="card"><strong>Work with a team</strong><p class="small">Use shared documents and task boards to make responsibilities and deadlines visible.</p></div>
+</div><p class="note">A marketer who understands the customer and objective can learn a new platform more effectively than someone who only knows where to click.</p><div class="footer"><span>Tools are not the strategy</span><span>14</span></div>
+</section>
+<section class="slide lime">
+<div class="kicker">Your next step</div><h2>DON'T TRY TO LEARN<br><span class="accent">EVERYTHING AT ONCE.</span></h2>
+<div class="steps"><div class="step"><b>01</b><strong>Choose a direction</strong><p class="small">Pick a specialty that interests you and fits your current strengths.</p></div><div class="step"><b>02</b><strong>Learn the basics</strong><p class="small">Understand the purpose of the work before collecting tools.</p></div><div class="step"><b>03</b><strong>Practise on a real problem</strong><p class="small">Use a personal project, a small business or a supervised project.</p></div><div class="step"><b>04</b><strong>Show what changed</strong><p class="small">Document your decisions, work and what you learned.</p></div></div>
+<p class="lede" style="margin-top:24px">Your goal today is not to become every kind of marketer. It's to identify a useful next step.</p><div class="footer"><span>Start where you are</span><span>15</span></div>
+</section>
+<section class="slide">
+<div class="kicker">Career growth · Nigeria</div><h2>WHAT COULD YOU<br><span class="accent">EARN AS YOU GROW?</span></h2>
+<p class="lede">Select a stage to explore an indicative monthly salary range. These are broad benchmarks, not promises or fixed timelines.</p>
+<div class="pills" role="group" aria-label="Choose career stage"><button class="pill salary-tab" data-stage="beginner">Beginner · 0–1 year</button><button class="pill salary-tab" data-stage="growing">Growing · 1–4 years</button><button class="pill salary-tab" data-stage="experienced">Experienced · 5+ years</button></div>
+<div class="panel" id="salaryDetail" style="margin-top:18px;max-width:900px" aria-live="polite"><h3>Beginner</h3><p class="lede" style="font-size:clamp(24px,3vw,42px);color:#191919">₦80,000–₦150,000 / month</p><p class="small">Entry-level and junior roles may include marketing assistant, coordinator, intern or junior digital marketer. Some internships pay less, and some companies pay more.</p></div>
+<p class="note">Pay depends on specialty, company size, location, proof of results and responsibility. Freelance and remote client income are different from a salary. Sources: Profolio Nigeria 2026 digital-marketer salary guide; Saplic live job-ad salary data, accessed October 2026. <a href="https://www.profolio.ng/digital-marketer/salary-guide" target="_blank" rel="noopener">Profolio guide</a> · <a href="https://saplic.com/ng/hire/mercadotecnia-publicidad-y-comunicacion" target="_blank" rel="noopener">Saplic job data</a>.</p><div class="footer"><span>Skills, evidence and responsibility affect pay</span><span>18</span></div>
+</section>
+<section class="slide">
+<div class="kicker">What helps you succeed</div>
+<h2>THE SKILLS THAT<br><span class="accent">MAKE YOU STAND OUT.</span></h2>
+<p class="lede">Marketing knowledge matters. So does how you communicate, show your thinking, and keep improving. Select each quality to see what it looks like in practice.</p>
+<div class="quality-layout">
+  <div class="quality-buttons" role="group" aria-label="Success qualities">
+    <button class="quality-btn active" data-quality="brand"><b>01</b><span>PERSONAL BRAND</span></button>
+    <button class="quality-btn" data-quality="writing"><b>02</b><span>WRITING</span></button>
+    <button class="quality-btn" data-quality="confidence"><b>03</b><span>CONFIDENCE</span></button>
+    <button class="quality-btn" data-quality="detail"><b>04</b><span>ATTENTION TO DETAIL</span></button>
+    <button class="quality-btn" data-quality="persistence"><b>05</b><span>PERSISTENCE</span></button>
+  </div>
+  <div class="panel quality-detail" id="qualityDetail" aria-live="polite"><span class="detail-tag">01 · SHOW YOUR THINKING</span><h3>Build a personal brand</h3><p>Your personal brand is the evidence people build about how you think, what you care about, and the kind of work you can do.</p><div class="detail-row"><b>Two ways to show it</b><p><b>Portfolio:</b> show the problem, your thinking, the work and what you learned. <b>Building in public:</b> share useful observations, experiments, lessons and progress as you learn.</p></div><div class="detail-row"><b>Why it helps</b><p>It gives employers and potential collaborators a way to discover your thinking. Some companies also look for employee-creators who can communicate authentically about their work and industry.</p></div></div>
+</div>
+<div class="footer"><span>Build the skill. Show the evidence.</span><span>19</span></div>
+</section>
+<section class="slide peach">
+<div class="kicker">The bridge from learning to doing</div><h2>WHY WORK WITH ME<br><span class="accent">FOR EIGHT WEEKS?</span></h2>
+<p class="lede">The apprenticeship is built around doing real marketing work with guidance, not collecting certificates or sitting through theory alone.</p>
+<div class="grid">
+<div class="card"><strong>01 · Find your direction</strong><p class="small">Explore your strengths, understand business and audience needs, and choose a specialty direction to practise.</p></div>
+<div class="card"><strong>02 · Learn how growth works</strong><p class="small">Work through different forms of customer acquisition and understand how marketing connects to business goals.</p></div>
+<div class="card"><strong>03 · Build through projects</strong><p class="small">Follow a hands-on arc: Week 1 business and audience analysis; Week 2 content strategy and creative direction; Week 3 creative formats; Week 6 marketing execution, with practical work and feedback throughout.</p></div>
+<div class="card"><strong>04 · Get feedback</strong><p class="small">Share specialty-based projects, review your work with guidance, improve your decisions and learn how to explain the thinking behind your output.</p></div>
+<div class="card"><strong>05 · Build your portfolio</strong><p class="small">Turn selected work into evidence of what you can do, what problem you solved and what you learned.</p></div>
+<div class="card"><strong>06 · Prepare for opportunities</strong><p class="small">Develop practical experience that can support applications, client work, business growth or your next learning step. Employment or income is not guaranteed.</p></div>
+</div><p class="note"><b>The idea:</b> we learn, apply, share work, get feedback and improve together. The aim is to help you move from “I’m interested in marketing” to showing the kind of work you can contribute.</p><div class="footer"><span>Eight weeks · Hands-on · Supervised</span><span>19</span></div>
+</section>
+<section class="slide dark">
+<div class="kicker">Your next step · Eight-week programme</div>
+<div class="final-offer">
+  <div class="final-copy">
+    <h1>READY TO DO<br><span class="accent">THE WORK?</span></h1>
+    <p class="lede">Explore the Marketing Apprenticeship and see how you can move from learning marketing to doing real marketing work.</p>
+    <div class="final-benefits">
+      <div class="final-benefit"><span class="benefit-icon">◷</span><div><b>Eight weeks</b>Live classes, workshops and real projects.</div></div>
+      <div class="final-benefit"><span class="benefit-icon">✳</span><div><b>Hands-on learning</b>Work on real brand and marketing problems with feedback.</div></div>
+      <div class="final-benefit"><span class="benefit-icon">↗</span><div><b>Career-focused</b>Build skills for roles, consulting, freelancing or your own business.</div></div>
+    </div>
+    <a class="final-cta" href="https://marketingapprenticeship-2wtw7erkr-hildahonestly-bot.vercel.app/" target="_blank" rel="noopener noreferrer">VIEW PROGRAMME & ENROL <span>↗</span></a>
+    <p class="final-caption">Click to open the full landing page.</p>
+  </div>
+  <a class="live-preview" href="https://marketingapprenticeship-2wtw7erkr-hildahonestly-bot.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open the Marketing Apprenticeship landing page and enrol">
+    <div class="live-preview-frame"><iframe src="https://marketingapprenticeship-2wtw7erkr-hildahonestly-bot.vercel.app/" title="Marketing Apprenticeship landing page hero preview" loading="eager" tabindex="-1" aria-hidden="true"></iframe><div class="preview-overlay"><span>MARKETING APPRENTICESHIP · LIVE PREVIEW</span><strong>OPEN PAGE ↗</strong></div></div>
+    <div class="preview-bottom"><span>Eight-week programme</span><strong>₦30,000</strong></div>
+  </a>
+</div>
+<div class="footer"><span>Marketing Specialty Class</span><span>20 / END</span></div>
+</section>
+</div>
+<div class="controls"><button id="prev" aria-label="Previous slide">← Back</button><span class="counter" id="counter">1 / 19</span><button id="next" aria-label="Next slide">Next →</button><button id="fs" aria-label="Toggle full screen">Full screen</button></div>
+<script>
+const specialties=[
+{name:"Brand strategy",category:"Strategy",work:"Define what a brand stands for, who it serves and why people should choose it.",skills:"Research, pattern spotting, business thinking, writing, decision-making.",example:"A local skincare brand is competing on price. You research customer priorities and help it build a sharper position around sensitive-skin expertise."},
+{name:"Creative strategy",category:"Strategy + creative",work:"Turn audience insight and business goals into a strong creative direction for campaigns and content.",skills:"Curiosity, insight, storytelling, problem solving, creative thinking, communication.",example:"A food brand wants more weekday orders. You find the audience tension and develop a campaign idea around easy office lunches."},
+{name:"Creative direction",category:"Creative leadership",work:"Set and guide the visual and verbal direction of creative work so the pieces feel intentional and consistent.",skills:"Visual judgement, communicating feedback, decision-making, leadership, attention to detail.",example:"You guide a designer, photographer and editor to create one coherent campaign rather than unrelated assets."},
+{name:"Content marketing",category:"Content",work:"Create useful content that attracts an audience, answers questions and supports business goals over time.",skills:"Research, writing, explaining ideas, planning, consistency, audience understanding.",example:"You build a simple series answering the five questions customers ask before buying a product."},
+{name:"Social media marketing",category:"Content + distribution",work:"Use social platforms to build relationships, distribute content, understand audiences and support business objectives.",skills:"Communication, observation, planning, community interaction, trend judgement.",example:"You turn customer questions into posts, reply to useful comments and review which topics lead to enquiries."},
+{name:"Copywriting",category:"Writing",work:"Write words that help people understand an offer and take a useful next step.",skills:"Writing, listening, empathy, persuasion, editing, understanding objections.",example:"You rewrite a product page so the benefits, proof, price and next step are easy to understand."},
+{name:"SEO · Search Engine Optimisation",category:"Search",work:"Help useful pages appear when people search for relevant information, products or services.",skills:"Research, curiosity, organisation, analysis, clear writing, attention to detail.",example:"You improve a service page to answer what customers search for, make the page useful and fix basic technical issues."},
+{name:"Paid advertising",category:"Acquisition",work:"Use paid placements to reach potential customers, test messages and generate measurable actions.",skills:"Analytical thinking, budgeting, testing, decision-making, understanding customer behaviour.",example:"You test two ad messages against the same audience and compare qualified enquiries, not just likes."},
+{name:"Brand marketing",category:"Awareness + preference",work:"Build recognition, meaning and preference for a brand over time through campaigns, experiences and communications.",skills:"Cultural observation, storytelling, research, creative judgement, long-term thinking.",example:"You develop a campaign that helps a new beverage brand become recognisable to a specific audience."},
+{name:"Growth marketing",category:"Growth",work:"Find and test ways to improve the customer journey, from first discovery to repeat use.",skills:"Problem solving, experimentation, analysis, prioritisation, collaboration.",example:"You investigate why people sign up but do not complete onboarding, then test a change to the welcome journey."},
+{name:"Marketing analytics",category:"Measurement",work:"Turn marketing data into useful explanations and decisions.",skills:"Working with numbers, finding patterns, asking questions, checking details, explaining results.",example:"You compare campaign sources and show which ones bring visitors who actually enquire or buy."},
+{name:"Email & CRM marketing",category:"Retention",work:"Use customer data and messages to nurture leads, support customers and encourage repeat business.",skills:"Writing, organisation, segmentation, empathy, planning, analysis.",example:"You create a welcome sequence that answers common questions after someone joins a mailing list."},
+{name:"Marketing automation",category:"Technology",work:"Connect tools and build repeatable workflows that reduce manual work and improve follow-up.",skills:"Systems thinking, logical problem solving, detail, process mapping, testing.",example:"You set up a workflow that records an enquiry and reminds the team to follow up."},
+{name:"Marketing operations",category:"Systems",work:"Help the marketing team work reliably through processes, systems, planning, reporting and coordination.",skills:"Organisation, documentation, prioritisation, troubleshooting, collaboration.",example:"You create a campaign process so everyone knows the owner, deadline, status and next action."},
+{name:"Public relations · PR",category:"Reputation",work:"Build relationships with media, partners and relevant communities to shape public understanding and trust.",skills:"Writing, relationship building, research, judgement, communication under pressure.",example:"You prepare a useful story angle and pitch it to relevant publications rather than sending the same generic message everywhere."},
+{name:"Influencer & creator marketing",category:"Partnerships",work:"Work with creators whose audiences and style fit a brand's goals and customers.",skills:"Research, relationship building, negotiation, creative judgement, measurement.",example:"You shortlist creators based on audience fit and trust, agree on deliverables and track meaningful outcomes."},
+{name:"Community marketing",category:"Relationships",work:"Build a space where people connect with a brand and with each other, creating trust and useful feedback.",skills:"Listening, facilitation, conflict handling, relationship building, consistency.",example:"You organise customer conversations and use recurring questions to improve the product and communications."},
+{name:"Account management",category:"Client relationships",work:"Manage the relationship between a client and a marketing team, keeping goals, communication, delivery and expectations aligned.",skills:"Listening, organisation, diplomacy, follow-through, expectation setting, problem solving.",example:"You turn a client's request into a clear brief, confirm priorities and keep the team and client updated."},
+{name:"Product marketing",category:"Product + market",work:"Connect product capabilities with customer needs through positioning, messaging, launches and sales enablement.",skills:"Research, explaining complex ideas, customer empathy, writing, cross-team collaboration.",example:"You help a software company explain who a new feature is for, why it matters and how customers can use it."},
+{name:"Partnerships & affiliate marketing",category:"Acquisition",work:"Build relationships with organisations, communities or partners who can introduce a relevant audience to an offer.",skills:"Relationship building, negotiation, planning, communication, tracking outcomes.",example:"You create a referral partnership with a complementary business and agree how introductions will be tracked."},
+{name:"Sales enablement",category:"Sales support",work:"Give sales teams the messaging, materials and customer insight they need to have better sales conversations.",skills:"Explaining ideas, listening, research, organisation, collaboration.",example:"You create a short comparison sheet that helps a sales team answer the questions buyers ask most often."},
+{name:"Conversion rate optimisation",category:"Conversion",work:"Improve the percentage of visitors who complete a desired action by investigating friction and testing changes.",skills:"Observation, analytical thinking, curiosity, prioritisation, careful testing.",example:"You find that customers abandon a form at one step, simplify the form and measure whether completion improves."},
+{name:"Event marketing",category:"Experiences",work:"Use events to attract an audience, build relationships, launch something or create a memorable brand experience.",skills:"Planning, coordination, communication, problem solving, relationship building.",example:"You plan an event campaign from registration and reminders through follow-up after the event."},
+{name:"Marketing research",category:"Research",work:"Study customers, competitors and markets so teams can make better decisions.",skills:"Asking questions, listening, comparing options, noticing patterns, drawing conclusions.",example:"You interview five customers to learn why they chose one product over another."},
+{name:"E-commerce marketing",category:"Commerce",work:"Help online stores attract visitors, convert purchases and encourage repeat orders.",skills:"Customer understanding, writing, analysis, merchandising, testing, planning.",example:"You improve product descriptions, review abandoned carts and create a post-purchase follow-up."}
+];
+const buttons=document.getElementById('specialtyButtons'),detail=document.getElementById('specialtyDetail');
+function selectSpecialty(i){document.querySelectorAll('.specialty-btn').forEach((b,j)=>b.classList.toggle('active',j===i));const s=specialties[i];detail.innerHTML=`<span class="detail-tag">${s.category}</span><h3>${s.name}</h3><div class="detail-row"><b>What the work involves</b><p>${s.work}</p></div><div class="detail-row"><b>Transferable skills to build on</b><p>${s.skills}</p></div><div class="detail-row"><b>Example</b><p>${s.example}</p></div>`}
+specialties.forEach((s,i)=>{const b=document.createElement('button');b.className='specialty-btn';b.textContent=s.name;b.addEventListener('click',()=>selectSpecialty(i));buttons.appendChild(b)});selectSpecialty(0);
+
+const pillarData={
+creative:{title:'Creative thinking',meaning:'How do we get people to notice, understand and care?',work:'Content ideas, copywriting, storytelling, visual communication, campaign concepts and creative direction.',strengths:'Writing, drawing, explaining ideas, storytelling, noticing what catches attention, and finding fresh ways to solve a problem.'},
+tech:{title:'Technology & automation',meaning:'How can tools and systems make the work more effective?',work:'Using AI thoughtfully, SEO tools, digital ad platforms, analytics, email systems and automations that reduce repetitive tasks.',strengths:'Curiosity, logical thinking, problem solving, spotting patterns, testing and learning how systems work.'},
+business:{title:'Business & commercial thinking',meaning:'How does marketing help a business make money and grow?',work:'Understanding customers, offers, pricing, acquisition, retention, sales, costs and the results a business needs.',strengths:'Listening, negotiation, research, budgeting, comparing options, selling and asking why customers buy or do not buy.'},
+strategy:{title:'Strategy & leadership',meaning:'What should we do, why should we do it, and how will we get it done?',work:'Setting direction, choosing priorities, connecting insights to decisions, coordinating campaigns and helping people work toward a shared goal.',strengths:'Planning, decision-making, communication, organisation, seeing the bigger picture and helping people move together.'}
+};
+document.querySelectorAll('[data-pillar]').forEach(btn=>btn.addEventListener('click',()=>{const d=pillarData[btn.dataset.pillar];document.getElementById('pillarDetail').innerHTML=`<h3>${d.title}</h3><p><b>In plain English</b>${d.meaning}</p><p><b>What this looks like</b>${d.work}</p><p><b>Strengths you can build on</b>${d.strengths}</p>`}));
+
+const qualityData={
+brand:{tag:'01 · SHOW YOUR THINKING',title:'Build a personal brand',intro:'Your personal brand is the evidence people build about how you think, what you care about, and the kind of work you can do.',rows:[['Two ways to show it','<b>Portfolio:</b> show the problem, your thinking, the work and what you learned. <b>Building in public:</b> share useful observations, experiments, lessons and progress as you learn.'],['Why it helps','It gives employers and potential collaborators a way to discover your thinking. Some companies also look for employee-creators who can communicate authentically about their work and industry.'],['Try this','Share one useful lesson from a marketing task, or document how you approached a small problem. Explain your reasoning, not just the final result.']]},
+writing:{tag:'02 · MAKE IDEAS CLEAR',title:'Become a good writer',intro:'Writing shows up in almost every marketing specialty: captions, briefs, strategy documents, emails, ads, reports and presentations.',rows:[['What matters','Clarity, structure, audience awareness and choosing words that make the next step obvious.'],['Try this','Explain one product to a specific audience in three sentences. Remove vague claims and make the benefit clear.'],['Remember','You do not have to be a copywriter, but you do need to communicate your thinking clearly.']]},
+confidence:{tag:'03 · PRACTISE SPEAKING UP',title:'Build confidence through practice',intro:'Confidence in marketing is being willing to share an idea, ask a question, explain a decision and learn from feedback.',rows:[['What it looks like','You can say why you chose an approach, what evidence informed it, and what you would test next.'],['Try this','Present one idea in a few sentences: the problem, your recommendation, and why you think it could work.'],['Remember','You do not need to know everything. Be honest about what you know and what you still need to learn.']]},
+detail:{tag:'04 · PROTECT THE QUALITY',title:'Pay attention to detail',intro:'Small details affect whether marketing feels trustworthy and whether the work performs as intended.',rows:[['What to check','Spelling, links, dates, names, audience fit, calls to action, tracking and how the work appears on mobile.'],['Try this','Before publishing, review your work once for meaning and once for errors. Test every link and action.'],['Remember','A simple checklist can catch mistakes that talent alone will not.']]},
+persistence:{tag:'05 · KEEP LEARNING',title:'Do not give up too quickly',intro:'Marketing involves testing, feedback, changing conditions and ideas that do not always work the first time.',rows:[['What persistence means','Review the evidence, learn what happened, adjust the approach and try again when there is a good reason.'],['Try this','If a post or campaign underperforms, check the audience, message, offer and distribution before deciding what to change.'],['Remember','Persistence is not repeating the same thing forever. It is learning and adapting without abandoning the goal too early.']]}
+};
+document.querySelectorAll('[data-quality]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-quality]').forEach(b=>b.classList.toggle('active',b===btn));const d=qualityData[btn.dataset.quality];document.getElementById('qualityDetail').innerHTML=`<span class="detail-tag">${d.tag}</span><h3>${d.title}</h3><p>${d.intro}</p>${d.rows.map(r=>`<div class="detail-row"><b>${r[0]}</b><p>${r[1]}</p></div>`).join('')}`}));
+
+const salaryData={
+beginner:{title:'Beginner · 0–1 year',range:'₦80,000–₦150,000 / month',copy:'Entry-level and junior roles may include marketing assistant, coordinator, intern or junior digital marketer. Some internships pay less, and some companies pay more.'},
+growing:{title:'Growing · 1–4 years',range:'₦150,000–₦400,000 / month',copy:'With stronger execution, a specialty and evidence of results, you may move into junior specialist, account executive or mid-level marketing roles. The range varies widely by company and specialty.'},
+experienced:{title:'Experienced · 5+ years',range:'₦400,000–₦1,200,000+ / month',copy:'Senior specialists, team leads and marketing managers may earn more as they take responsibility for budgets, strategy, teams and business outcomes. Leadership roles at larger companies can exceed this range.'}
+};
+document.querySelectorAll('.salary-tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.salary-tab').forEach(b=>{b.style.background=b===btn?'#191919':'';b.style.color=b===btn?'#fff':''});const d=salaryData[btn.dataset.stage];document.getElementById('salaryDetail').innerHTML=`<h3>${d.title}</h3><p class="lede" style="font-size:clamp(24px,3vw,42px);color:#191919">${d.range}</p><p class="small">${d.copy}</p>`}));
+
+const slides=[...document.querySelectorAll('.slide')];let current=0;
+function go(n){current=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===current));document.getElementById('counter').textContent=`${current+1} / ${slides.length}`;document.getElementById('prev').disabled=current===0;document.getElementById('next').disabled=current===slides.length-1;document.getElementById('progress').style.width=((current+1)/slides.length*100)+'%';}
+document.getElementById('prev').addEventListener('click',()=>go(current-1));document.getElementById('next').addEventListener('click',()=>go(current+1));
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+document.getElementById('fs').addEventListener('click',async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){}});
+let sx=0,sy=0;document.addEventListener('touchstart',e=>{sx=e.changedTouches[0].screenX;sy=e.changedTouches[0].screenY},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].screenX-sx,dy=e.changedTouches[0].screenY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy))go(current+(dx<0?1:-1))},{passive:true});
+go(0);
+</script>
+</body>
+</html>
